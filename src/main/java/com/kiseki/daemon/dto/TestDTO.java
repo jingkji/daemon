@@ -1,0 +1,28 @@
+package com.kiseki.daemon.dto;
+
+import com.kiseki.daemon.validation.Mobile;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+@Data
+public class TestDTO {
+
+    @NotBlank
+    private String userName;
+
+    @NotBlank
+    @Length(min = 6, max = 20)
+    private String password;
+
+    @NotNull
+    @Email
+    private String email;
+
+    @NotBlank
+    @Mobile
+    private String mobile;
+}

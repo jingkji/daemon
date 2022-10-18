@@ -1,6 +1,5 @@
 package com.kiseki.daemon.action;
 
-import com.kiseki.daemon.result.BusinessException;
 import com.kiseki.daemon.result.Result;
 import com.kiseki.daemon.result.ResultEnum;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +16,13 @@ public class IndexController {
     @PostMapping("/getData")
     public Result getData(@RequestBody Map<String, Object> params) {
 
-        throw new BusinessException(ResultEnum.NO_PERMISSION.getErrorCode(), ResultEnum.NO_PERMISSION.getErrorMsg());
+        StringBuilder paramsStr = new StringBuilder();
+        if (!params.isEmpty()) {
+            params.forEach((k,v) -> {
+                paramsStr.append("key: ").append(k)
+                        .append(", value: ").append(v).append("; ");
+            });
+        }
+        return new Result(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), paramsStr.toString());
     }
 }

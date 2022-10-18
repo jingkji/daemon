@@ -1,65 +1,42 @@
 package com.kiseki.daemon.result;
 
-public class Result {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Result<T> {
  //是否成功
-    private Boolean success;
     //状态码
     private Integer code;
     //提示信息
-    private String msg;
+    private String message;
     //数据
-    private Object data;
-    public Result() {
+    private T data;
 
+    public static <T> Result<T> success(T data) {
+        return new Result<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), data);
     }
-    //自定义返回结果的构造方法
-    public Result(Boolean success, Integer code, String msg, Object data) {
-        this.success = success;
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
+
+    public static <T> Result<T> success(String message, T data) {
+        return new Result<>(ResultEnum.SUCCESS.getCode(), message, data);
     }
-    //自定义异常返回的结果
-    public static Result defineError(BusinessException de){
-     Result result = new Result();
-        result.setSuccess(false);
-        result.setCode(de.getErrorCode());
-        result.setMsg(de.getErrorMsg());
-        result.setData(null);
-        return result;
+
+    public static Result<?> failed() {
+        return new Result<>(ResultEnum.COMMON_FAILED.getCode(), ResultEnum.COMMON_FAILED.getMessage(), null);
     }
-    //其他异常处理方法返回的结果
-    public static Result otherError(ResultEnum resultEnum){
-     Result result = new Result();
-        result.setMsg(resultEnum.getErrorMsg());
-        result.setCode(resultEnum.getErrorCode());
-        result.setSuccess(false);
-        result.setData(null);
-        return result;
+
+    public static Result<?> failed(Integer code, String message) {
+        return new Result<>(code, message, null);
     }
- public Boolean getSuccess() {
-  return success;
- }
- public void setSuccess(Boolean success) {
-  this.success = success;
- }
- public Integer getCode() {
-  return code;
- }
- public void setCode(Integer code) {
-  this.code = code;
- }
- public String getMsg() {
-  return msg;
- }
- public void setMsg(String msg) {
-  this.msg = msg;
- }
- public Object getData() {
-  return data;
- }
- public void setData(Object data) {
-  this.data = data;
- }
-    
+
+    public static Result<?> failed(String message) {
+        return new Result<>(ResultEnum.COMMON_FAILED.getCode(), message, null);
+    }
+
+    public static Result<?> failed(IResult errorResult) {
+        return new Result<>(errorResult.getCode(), errorResult.getMessage(), null);
+    }
 }

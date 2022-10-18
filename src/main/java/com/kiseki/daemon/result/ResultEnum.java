@@ -1,30 +1,41 @@
 package com.kiseki.daemon.result;
 
-public enum ResultEnum {
- // 数据操作错误定义
- SUCCESS(200, "成功"),
- NO_PERMISSION(403,"你没得权限"),
- NO_AUTH(401,"未登录"),
- NOT_FOUND(404, "未找到该资源!"),
- INTERNAL_SERVER_ERROR(500, "服务器异常请联系管理员"),
- ;
+/**
+ * 系统调用状态枚举值
+ */
+public enum ResultEnum implements IResult {
+     // 数据操作错误定义
+     SUCCESS(200, "成功"),
 
- /** 错误码 */
- private Integer errorCode;
+     FORBIDDEN(301,"你没得权限"),
+     NO_AUTH(302,"未登录"),
+     VALIDATE_FAILED(401, "参数校验失败"),
+     COMMON_FAILED(403, "接口调用失败"),
+     NOT_FOUND(404, "未找到该资源!"),
+     INTERNAL_SERVER_ERROR(500, "服务器异常请联系管理员"),
+     ;
 
- /** 错误信息 */
- private String errorMsg;
+     /**
+      * 状态码
+      */
+     private final Integer code;
 
- ResultEnum(Integer errorCode, String errorMsg) {
-  this.errorCode = errorCode;
-  this.errorMsg = errorMsg;
- }
+     /**
+      * 状态信息
+      */
+     private final String message;
 
-    public Integer getErrorCode() {
-        return errorCode;
+     ResultEnum(Integer code, String message) {
+      this.code = code;
+      this.message = message;
+     }
+
+     public Integer getCode() {
+        return code;
     }
 
-    public String getErrorMsg() {
-        return errorMsg;
+    public String getMessage() {
+        return message;
     }
+
 }

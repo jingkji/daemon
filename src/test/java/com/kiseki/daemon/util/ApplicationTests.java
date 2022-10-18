@@ -22,8 +22,8 @@ public class ApplicationTests {
         long start = System.currentTimeMillis();
 
         Future<String> task1 = task.doTaskOne();
-        Future<String> task2 = task.doTaskTwo();
-        Future<String> task3 = task.doTaskThree();
+        Future<String> task2 = task.doTaskOne();
+        Future<String> task3 = task.doTaskOne();
 
         while(true) {
             if(task1.isDone() && task2.isDone() && task3.isDone()) {
